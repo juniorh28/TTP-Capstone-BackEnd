@@ -1,4 +1,5 @@
 const passport = require('passport')
+const cookieSession = require("cookie-session");
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 //need user model
 const router = require('express').Router
@@ -33,11 +34,11 @@ let strategy = new GoogleStrategy(googleConfig, (token,refreshToken,profile,done
 
 passport.use(strategy);
 
-//Route for authenticating
 
+
+//Route for authenticating
 router.get('/auth/google',
   passport.authenticate('google', { scope: ['profile'] }));
-
 
 //Route for callback
 router.get('/auth/google/callback', 
@@ -46,3 +47,17 @@ router.get('/auth/google/callback',
     // Successful authentication, redirect home.
     res.redirect('/');
   });
+
+
+  //create a cookie and store it in users browser
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
+  
+  //server will take cookie identify it as the user
+  passport.deserializeUser((id, done) => {
+    User.findById(id).then(user => {
+      done(null, user);
+    });
+  });
+  
