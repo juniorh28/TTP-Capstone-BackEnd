@@ -27,6 +27,7 @@ const Place = db.define("place", {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  //if we choose to have upvote feature, the number of votes will be stored here
   numOfLikes: {
     type: Sequelize.INTEGER,
     allowNull: false,
