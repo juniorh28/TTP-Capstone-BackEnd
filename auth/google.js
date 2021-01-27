@@ -37,16 +37,10 @@ passport.use(strategy);
 
 
 //Route for authenticating
-router.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile'] }));
+router.use('/auth/google',require('./routes/pages'))
 
 //Route for callback
-router.get('/auth/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
+router.use('/auth/google/callback', require('./route/pages'));
 
 
   //create a cookie and store it in users browser
@@ -60,4 +54,9 @@ router.get('/auth/google/callback',
       done(null, user);
     });
   });
+  
+
+  
+  router.use(passport.initialize());
+  router.use(passport.session());
   
