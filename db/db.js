@@ -1,5 +1,6 @@
-const Sequelize = require('sequelize');
-const { name } = require('../package.json');
+const Sequelize = require("sequelize");
+const { name } = require("../package.json");
+require("dotenv").config();
 
 // Initialize database with Sequelize
 const db = new Sequelize(
