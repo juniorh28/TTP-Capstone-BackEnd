@@ -61,11 +61,7 @@ router.get("/categories/:id", async (req, res, next) => {
 //returns single place in the database by its id
 router.get("/all/:id", async (req, res, next) => {
   try {
-    const singlePlaceById = await Place.findAll({
-      where: {
-        id: req.params.id,
-      },
-    });
+    const singlePlaceById = await Place.findByPk(req.params.id);
     // An if/ternary statement to handle not finding explicitly
     !singlePlaceById
       ? res.status(404).send("Places Listing Not Found")
