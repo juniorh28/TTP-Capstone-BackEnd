@@ -1,7 +1,7 @@
 const router = require("express").Router();
 module.exports = router;
 
-// Mounts players api calls from api file on /api/players
+// Mounts api calls from api file on /api/players
 router.use("/players", require("./players"));
 router.use("/places", require("./places"));
 

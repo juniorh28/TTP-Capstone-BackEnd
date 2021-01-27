@@ -9,7 +9,7 @@ const { Place } = require("../db/models");
 router.get("/", async (req, res, next) => {
   try {
     const allPlaces = await Place.findAll();
-    // An if/ternary statement to handle not finding allPlayers explicitly
+    // An if/ternary statement to handle not finding explicitly
     !allPlaces
       ? res.status(404).send("Places Listing Not Found")
       : res.status(200).json(allPlaces);
@@ -28,7 +28,7 @@ router.get("/boroughs/:id", async (req, res, next) => {
         borough: req.params.id,
       },
     });
-    // An if/ternary statement to handle not finding allPlayers explicitly
+    // An if/ternary statement to handle not finding explicitly
     !placesById
       ? res.status(404).send("Places Listing Not Found")
       : res.status(200).json(placesById);
@@ -47,10 +47,29 @@ router.get("/categories/:id", async (req, res, next) => {
         category: req.params.id,
       },
     });
-    // An if/ternary statement to handle not finding allPlayers explicitly
+    // An if/ternary statement to handle not finding explicitly
     !placesById
       ? res.status(404).send("Places Listing Not Found")
       : res.status(200).json(placesById);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//localhost:8080/api/places/all/:id
+//id is the primary key in the database
+//returns single place in the database by its id
+router.get("/all/:id", async (req, res, next) => {
+  try {
+    const singlePlaceById = await Place.findAll({
+      where: {
+        id: req.params.id,
+      },
+    });
+    // An if/ternary statement to handle not finding explicitly
+    !singlePlaceById
+      ? res.status(404).send("Places Listing Not Found")
+      : res.status(200).json(singlePlaceById);
   } catch (error) {
     next(error);
   }
