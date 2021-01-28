@@ -71,5 +71,18 @@ router.get("/all/:id", async (req, res, next) => {
   }
 });
 
+//localhost:8080/api/places/newPlace
+//adds a new place to the database
+router.post("/newPlace", async (req, res, next) => {
+  console.log("reqbody", req.body);
+  try {
+    let newPlace = await Place.create(req.body);
+    res.status(201).send(newPlace);
+  } catch (error) {
+    res.send({ error: error });
+    next(error);
+  }
+});
+
 // Export our router, so that it can be imported to construct our api routes
 module.exports = router;

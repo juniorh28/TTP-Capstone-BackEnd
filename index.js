@@ -15,6 +15,8 @@ const app = express();
 //CORS!
 app.use(cors());
 
+app.use(express.json());
+
 //Mount on API
 app.use("/api", require("./api"));
 
