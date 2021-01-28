@@ -6,7 +6,7 @@ router.use('/players', require('./players'));
 router.use('/users', require('./users'));
 
 
-//Anythingn not found gets a 404
+//Anything not found gets a 404
 router.use((req, res, next) => {
   const error = new Error('Not Found');
   error.status = 404;
