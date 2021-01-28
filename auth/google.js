@@ -1,10 +1,12 @@
 const passport = require('passport')
-const cookieSession = require("cookie-session");
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-//need user model
-require('dotenv').config()//required
-const model = require('../db/models/user')
+const cookieSession = require("cookie-session");
+const User = require('../db/models/user')
 const router = require('express').Router()
+const db = require('../db');
+
+require('dotenv').config()//required
+
 
 if(!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET){
     console.log("GOOGLE ID/SECRET NOT FOUND")
@@ -45,7 +47,7 @@ if(!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET){
   router.get('/callback', 
   passport.authenticate('google', { 
       failureRedirect: '/login', 
-      successRedirect:'/home'
+      successRedirect:'/'
     })
   )
 }

@@ -44,6 +44,7 @@ app.use('/auth',require('./auth'))
     saveUninitialized:false
 }))
 
+
   
   
   app.use(passport.initialize());

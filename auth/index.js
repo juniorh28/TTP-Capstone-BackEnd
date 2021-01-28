@@ -1,5 +1,6 @@
 const router = require("express").Router()
 const User = require('../db/models/user.js')
+const bcrypt = require('bcrypt')
 
 //Post logout
 router.post('/logout',(req,res,next)=>{
@@ -12,10 +13,22 @@ router.post('/logout',(req,res,next)=>{
 })
 
 
-//Post Sign up
-router.post('/sign-Up',(req,res,next)=>{
+//Post register
+router.post('/register',async (req,res,next)=>{
     try {
-        res.send("sending Info")
+        const salt = await bcrypt.genSalt()
+        const hashedPassword = await bcrypt.hash(req.body.password, salt)
+        console.log(salt)
+        console.log(hashedPassword)
+        res.send({
+            firstName:req.body.firstName,
+            lastName:req.body.lastName,
+            password:hashedPassword,
+            email:req.body.email,
+            img:req.body.img,
+            googleID:req.body.googleID
+        })
+        res.status(201).send()
     } catch (error) {
         next(error)
     }
@@ -23,8 +36,9 @@ router.post('/sign-Up',(req,res,next)=>{
 })
 
 //get user
-router.get('/',(req,res,next)=>{
+router.get('/user',(req,res,next)=>{
     try {
+
         res.send("got all users") 
     } catch (error) {
        next(error) 
