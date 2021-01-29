@@ -84,5 +84,18 @@ router.post("/newPlace", async (req, res, next) => {
   }
 });
 
+//localhost:8080/api/places/editPlace/:id
+//edits a place for likes, id is the pk of the place
+router.put("/editPlace/:id", async (req, res, next) => {
+  try {
+    console.log("id");
+    let placeToEdit = await Place.findByPk(req.params.id);
+    await placeToEdit.update(req.body);
+    res.status(201).send(placeToEdit);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Export our router, so that it can be imported to construct our api routes
 module.exports = router;
