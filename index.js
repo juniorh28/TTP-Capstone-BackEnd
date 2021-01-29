@@ -6,6 +6,7 @@ const path = require('path');
 const passport = require('passport')
 const sequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db');
+const User = require('./db/models/user')
 require('dotenv').config()//required
 
 const sessionsStore = new sequelizeStore({db})
@@ -23,13 +24,7 @@ app.use(express.json())//will convert obj sent to JSON allowing it to be read.
 
 app.use(express.urlencoded({extended:true}))
 
-//Mount on API
-app.use('/api', require('./api'));
-app.use('/auth',require('./auth'))
-
-
-
-  //create a cookie and store it in users browser
+//create a cookie and store it in users browser
   passport.serializeUser((user, done) => {
     done(null, user.id)
   })
@@ -48,12 +43,14 @@ app.use('/auth',require('./auth'))
     saveUninitialized:false
 }))
 
-
-  
   
   app.use(passport.initialize());
   app.use(passport.session());
 
+
+//Mount on API
+app.use('/api', require('./api'));
+app.use('/auth',require('./auth'))
 
 //START BACKEND SERVER FUNCTIOON
 const serverRun = () => {

@@ -1,55 +1,45 @@
 const router = require("express").Router()
 const User = require('../db/models/user.js')
-const bcrypt = require('bcrypt')
+module.exports = router
 
-//Post logout
-router.post('/logout',(req,res,next)=>{
- try {   
-    req.logout();
-    req.session.destory()
-}catch (error) {
-    next(error)
-    }
-})
-
-
-//Post register
-router.post('/register',async (req,res,next)=>{
+router.post("/register", async (req, res, next) => {
     try {
-        const salt = await bcrypt.genSalt()
-        const hashedPassword = await bcrypt.hash(req.body.password, salt)
-        console.log(salt)
-        console.log(hashedPassword)
-        res.send({
-            firstName:req.body.firstName,
-            lastName:req.body.lastName,
-            password:hashedPassword,
-            email:req.body.email,
-            img:req.body.img,
-            googleID:req.body.googleID
-        })
-        res.status(201).send()
+      let { firstName, lastName, email, password, img, googleID } = req.body;
+      console.log({
+        firstName,
+        lastName,
+        email,
+        password,
+        img,
+        googleID,
+      });
+      let newUser = await User.create(req.body);
+      req.login(newUser,err => (err ? next(err) : res.json(newUser)))
     } catch (error) {
-        next(error)
+        if(error.name==="SequelizeUniqueConstraintError"){
+            res.send("user already exist")
+        }
+        else{
+            next(error)
+        }
     }
-    
-})
+  });
 
-//get user
-router.get('/user',(req,res,next)=>{
+
+
+  router.put("/edit", async (req, res, next) => {
     try {
+      let updateUser = await User.update(req.body);
+    } catch (error) {}
+  });
 
-        res.send("got all users") 
-    } catch (error) {
-       next(error) 
-    } 
-})
+
 
 router.post('/login', async (req,res,next) =>{
     try {
          const user = await User.findOne({
              where:{
-                email: req.body.email 
+                email: req.body.email
              }
          })
 
@@ -73,9 +63,23 @@ router.post('/login', async (req,res,next) =>{
     }catch (error) {
         next(error)
     }}
-    )
+)
 
+//Post logout
+router.post('/logout',(req,res,next)=>{
+    try {   
+       req.logout();
+       req.session.destory()
+   }catch (error) {
+       next(error)
+       }
+   })
+
+
+router.get('/me',(req,res)=>{
+    res.json(req.user)
+})
 
 router.use('/google', require('./google'))
 
-module.exports = router
+
