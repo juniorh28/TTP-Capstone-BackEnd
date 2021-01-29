@@ -35,6 +35,7 @@ const Place = db.define("place", {
   },
   comments: {
     type: Sequelize.ARRAY(Sequelize.TEXT),
+    allowNull: false,
   },
 });
 
