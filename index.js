@@ -31,8 +31,7 @@ app.use(express.urlencoded({extended:true}))
   
   //server will take cookie identify it as the user
   passport.deserializeUser((id, done) => {
-    User.findById(id)
-    .then(user => {done(null, user)})
+    User.findByPk(id).then((user) => {done(null, user)})
     .catch(err => {done(err)})
   })
 

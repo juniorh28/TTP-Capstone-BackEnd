@@ -3,36 +3,34 @@ const db = require('../db');
 const crypto = require('crypto')
 
 const User = db.define('user', {
-    firstName: {
+/*     firstName: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
   
     lastName: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
-
+ */
     email:{
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
     },
     
-    img:{
+/*     img:{
         type: Sequelize.STRING,
-    },
+    }, */
 
     password:{
         type: Sequelize.STRING,
         get(){
-            return ()=> this.getDataValue('password')
+            return () => this.getDataValue('password')
         }
     },
     salt:{
         type: Sequelize.STRING,
         get(){
-            return ()=> this.getDataValue('salt')
+            return () => this.getDataValue('salt')
         }
     },
     googleID:{
@@ -40,11 +38,15 @@ const User = db.define('user', {
     }
 })
   
+
+/*   User.prototype.correctPassword=(candidatePwd)=>{
+      return User.encryptPassword(candidatePwd,this.salt()) === this.password()
+  } */
 //each user will compare password and decrypt it
-  User.prototype.correctPassword=(candidatePwd)=>{
-      return User.encryptPassword(candidatePwd,this.salt())===this.password()
-  }
- 
+  User.prototype.correctPassword = function(enteredPassword) {
+    return User.encryptPassword(enteredPassword, this.salt()) === this.password()
+}
+
   User.generateSalt=()=>{return crypto.randomBytes(16).toString("base64")}
 
   //crypto will take the password and hash it

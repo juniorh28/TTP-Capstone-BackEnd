@@ -3,6 +3,7 @@ const User = require('../db/models/user.js')
 module.exports = router
 
 router.post("/register", async (req, res, next) => {
+    console.log("im here")
     try {
       let { firstName, lastName, email, password, img, googleID } = req.body;
       console.log({
