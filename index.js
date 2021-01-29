@@ -19,6 +19,10 @@ const app = express();
 //CORS!
 app.use(cors());
 
+app.use(express.json())//will convert obj sent to JSON allowing it to be read.
+
+app.use(express.urlencoded({extended:true}))
+
 //Mount on API
 app.use('/api', require('./api'));
 app.use('/auth',require('./auth'))
