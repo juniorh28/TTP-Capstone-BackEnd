@@ -1,14 +1,19 @@
 //NODE MODULES
-const express = require("express");
-const morgan = require("morgan");
-const compression = require("compression");
-const cors = require("cors");
-const path = require("path");
-require("dotenv").config();
+const express = require('express');
+const session = require('express-session')
+const cors = require('cors');
+const path = require('path');
+const passport = require('passport')
+const sequelizeStore = require('connect-session-sequelize')(session.Store)
+const db = require('./db');
+const User = require('./db/models/user')
+require('dotenv').config()//required
+
+const sessionsStore = new sequelizeStore({db})
 
 //IMPORTS/VARIABLES
-const PORT = process.env.PORT || 8080;
-const db = require("./db");
+const PORT = process.env.PORT;
+
 
 const app = express();
 
@@ -18,7 +23,8 @@ app.use(cors());
 app.use(express.json());
 
 //Mount on API
-app.use("/api", require("./api"));
+app.use('/api', require('./api'));
+app.use('/auth',require('./auth'))
 
 //START BACKEND SERVER FUNCTIOON
 const serverRun = () => {

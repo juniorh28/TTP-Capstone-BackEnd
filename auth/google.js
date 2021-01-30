@@ -1,23 +1,24 @@
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-//need user model
-const router = require('express').Router
+const cookieSession = require("cookie-session");
+const User = require('../db/models/user')
+const router = require('express').Router()
+const db = require('../db');
 
+require('dotenv').config()//required
 
 
 if(!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET){
     console.log("GOOGLE ID/SECRET NOT FOUND")
-}
-else{
-    let googleConfig = {
-        clientID:process.env.GOOGLE_CLIENT_ID,
-        clientSecret:process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL:process.env.GOOGLE_CALLBACK
+}else{
+    const googleConfig = {
+      clientID:process.env.GOOGLE_CLIENT_ID,
+      clientSecret:process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL:process.env.GOOGLE_CALLBACK
     }
-}
 
-let strategy = new GoogleStrategy(googleConfig, (token,refreshToken,profile,done)=>{
-    const googleId = profile.id
+  let strategy = new GoogleStrategy(googleConfig, (token,refreshToken,profile,done)=>{
+      const googleId = profile.id
       const email = profile.emails[0].value
       const imgUrl = profile.photos[0].value
       const firstName = profile.name.givenName
@@ -26,23 +27,29 @@ let strategy = new GoogleStrategy(googleConfig, (token,refreshToken,profile,done
       User.findOrCreate({
           where:{googleId},
           default:{email,imgUrl,firstName,lastName,fullName}
-      }).then(([user]) =>{
-          done(null,user)
-      }).catch(done)
-})
+        })
+      .then(([user]) =>{
+        done(null,user)
+      })
+      .catch(done)
+  })
 
-passport.use(strategy);
-
-//Route for authenticating
-
-router.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile'] }));
+  passport.use(strategy);
 
 
-//Route for callback
-router.get('/auth/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
+
+  //Route for authenticating
+  router.get('/', 
+    passport.authenticate('google', { scope: ['email','profile'] }));
+
+
+  //Route for callback
+  router.get('/callback', 
+  passport.authenticate('google', { 
+      failureRedirect: '/login', 
+      successRedirect:'/'
+    })
+  )
+}
+
+module.exports = router
