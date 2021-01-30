@@ -8,41 +8,48 @@ const sequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db');
 const User = require('./db/models/user')
 require('dotenv').config()//required
-/* const { Client } = require('pg'); */
 
 const sessionsStore = new sequelizeStore({db})
 
 //IMPORTS/VARIABLES
 const PORT = process.env.PORT;
 
+
 const app = express();
-/* 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: true,
-  }
-});
-
-client.connect();
-
-client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
-  }
-  client.end();
-});
- */
 
 //CORS!
 app.use(cors());
 
-app.use(express.json());
+app.use(express.json())//will convert obj sent to JSON allowing it to be read.
+
+app.use(express.urlencoded({extended:true}))
+
+//create a cookie and store it in users browser
+  passport.serializeUser((user, done) => {
+    done(null, user.id)
+  })
+  
+  //server will take cookie identify it as the user
+  passport.deserializeUser((id, done) => {
+    User.findByPk(id).then((user) => {done(null, user)})
+    .catch(err => {done(err)})
+  })
+
+  app.use(session({
+    secret:process.env.SESSION_SECRET || "HELLO",
+    store:sessionsStore,
+    resave:false,
+    saveUninitialized:false
+}))
+
+  
+  app.use(passport.initialize());
+  app.use(passport.session());
+
 
 //Mount on API
-app.use("/api", require("./api"));
-app.use("/auth", require("./auth"));
+app.use('/api', require('./api'));
+app.use('/auth',require('./auth'))
 
 //START BACKEND SERVER FUNCTIOON
 const serverRun = () => {
@@ -63,3 +70,25 @@ syncDb();
 serverRun();
 
 module.exports = app;
+
+
+
+/* 
+const client = require('pg)
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: true,
+  }
+});
+
+client.connect();
+
+client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+  if (err) throw err;
+  for (let row of res.rows) {
+    console.log(JSON.stringify(row));
+  }
+  client.end();
+});
+ */
