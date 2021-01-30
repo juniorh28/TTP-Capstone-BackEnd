@@ -101,7 +101,6 @@ router.put("/editLikes/:id", async (req, res, next) => {
 //adds new comment to the place
 router.put("/addComment/:id", async (req, res, next) => {
   try {
-    console.log(req.body);
     let placeToEdit = await Place.findByPk(req.params.id);
     placeToEdit.update({ comments: req.body });
     res.status(201).send(placeToEdit);
