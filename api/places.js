@@ -88,9 +88,22 @@ router.post("/newPlace", async (req, res, next) => {
 //edits a place for likes, adds 1 to numOfLikes, id is the pk of the place
 router.put("/editLikes/:id", async (req, res, next) => {
   try {
-    console.log("id");
+    console.log("id", req.params.id);
     let placeToEdit = await Place.findByPk(req.params.id);
     await placeToEdit.update({ numOfLikes: placeToEdit.numOfLikes + 1 });
+    res.status(201).send(placeToEdit);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//localhost:8080/api/places/addComment/:id
+//adds new comment to the place
+router.put("/addComment/:id", async (req, res, next) => {
+  try {
+    console.log(req.body);
+    let placeToEdit = await Place.findByPk(req.params.id);
+    placeToEdit.update({ comments: req.body });
     res.status(201).send(placeToEdit);
   } catch (error) {
     next(error);
