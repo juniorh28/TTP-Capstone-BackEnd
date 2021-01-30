@@ -8,16 +8,15 @@ const sequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db');
 const User = require('./db/models/user')
 require('dotenv').config()//required
-const { Client } = require('pg');
+/* const { Client } = require('pg'); */
 
 const sessionsStore = new sequelizeStore({db})
 
 //IMPORTS/VARIABLES
 const PORT = process.env.PORT;
 
-
 const app = express();
-
+/* 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -34,7 +33,7 @@ client.query('SELECT table_schema,table_name FROM information_schema.tables;', (
   }
   client.end();
 });
-
+ */
 
 //CORS!
 app.use(cors());
@@ -42,8 +41,8 @@ app.use(cors());
 app.use(express.json());
 
 //Mount on API
-app.use('/api', require('./api'));
-app.use('/auth',require('./auth'))
+app.use("/api", require("./api"));
+app.use("/auth", require("./auth"));
 
 //START BACKEND SERVER FUNCTIOON
 const serverRun = () => {
