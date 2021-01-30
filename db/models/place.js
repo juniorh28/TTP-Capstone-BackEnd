@@ -33,6 +33,10 @@ const Place = db.sequelize.define("place", {
   imageUrl: {
     type: Sequelize.STRING,
   },
+  comments: {
+    type: Sequelize.ARRAY(Sequelize.TEXT),
+    allowNull: false,
+  },
 });
 
 module.exports = Place;

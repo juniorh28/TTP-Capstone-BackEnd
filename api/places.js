@@ -71,5 +71,43 @@ router.get("/all/:id", async (req, res, next) => {
   }
 });
 
+//localhost:8080/api/places/newPlace
+//adds a new place to the database
+router.post("/newPlace", async (req, res, next) => {
+  console.log("reqbody", req.body);
+  try {
+    let newPlace = await Place.create(req.body);
+    res.status(201).send(newPlace);
+  } catch (error) {
+    res.send({ error: error });
+    next(error);
+  }
+});
+
+//localhost:8080/api/places/editPlace/:id
+//edits a place for likes, adds 1 to numOfLikes, id is the pk of the place
+router.put("/editLikes/:id", async (req, res, next) => {
+  try {
+    console.log("id", req.params.id);
+    let placeToEdit = await Place.findByPk(req.params.id);
+    await placeToEdit.update({ numOfLikes: placeToEdit.numOfLikes + 1 });
+    res.status(201).send(placeToEdit);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//localhost:8080/api/places/addComment/:id
+//adds new comment to the place
+router.put("/addComment/:id", async (req, res, next) => {
+  try {
+    let placeToEdit = await Place.findByPk(req.params.id);
+    placeToEdit.update({ comments: req.body });
+    res.status(201).send(placeToEdit);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Export our router, so that it can be imported to construct our api routes
 module.exports = router;
