@@ -10,6 +10,7 @@ const seedPlaces = [
     imageUrl:
       "http://www.artnet.com/WebServices/images/ll2ae646d9-8d9b-4a16-baf9-49c56304236cllgQTfDrDWQFHNEAG/fausto-melotti-cartoccio,coppetta,coppetta-blu,senza-titolo,tema-e-variazioni-xi,vaso.jpg",
     numOfLikes: 0,
+    comments: [],
   },
   {
     name: "SCREEN DRAWINGS",
@@ -22,6 +23,7 @@ const seedPlaces = [
     imageUrl:
       "http://www.artnet.com/WebServices/images/ll425a34dc-0095-4369-9375-5ef3fd019d83llgnVfDrDWQFHNEAG/artwork.jpg",
     numOfLikes: 0,
+    comments: [],
   },
 
   {
@@ -35,6 +37,7 @@ const seedPlaces = [
     borough: "bronx",
     imageUrl: "http://www.nyartbeat.com/media/event/2021/9F3D-446",
     numOfLikes: 0,
+    comments: [],
   },
   {
     name: "“Marking Time: Art in the Age of Mass Incarceration” Exhibition",
@@ -45,6 +48,7 @@ const seedPlaces = [
     borough: "queens",
     imageUrl: "http://www.nyartbeat.com/media/event/2020/7347-620",
     numOfLikes: 0,
+    comments: [],
   },
 
   {
@@ -56,6 +60,7 @@ const seedPlaces = [
     borough: "brooklyn",
     imageUrl: "http://www.nyartbeat.com/media/event/2020/9240-620",
     numOfLikes: 0,
+    comments: [],
   },
 
   {
@@ -68,6 +73,7 @@ const seedPlaces = [
     imageUrl:
       "https://assets3.thrillist.com/v1/image/2928216/1584x1054/crop;jpeg_quality=60.jpg",
     numOfLikes: 0,
+    comments: [],
   },
 
   {
@@ -80,6 +86,7 @@ const seedPlaces = [
     imageUrl:
       "https://assets3.thrillist.com/v1/image/2928229/1584x1054/crop;jpeg_quality=60.jpg",
     numOfLikes: 0,
+    comments: [],
   },
   {
     name: "Sunset Hike",
@@ -92,6 +99,7 @@ const seedPlaces = [
     imageUrl:
       "https://www.nycgovparks.org/pagefiles/108/marine-park-white-island__5808fe91ebec6.jpg",
     numOfLikes: 0,
+    comments: [],
   },
   {
     name: "Nature Exploration: Captain Tilly Park",
@@ -102,6 +110,7 @@ const seedPlaces = [
     borough: "queens",
     imageUrl: "https://www.nycgovparks.org/photo_gallery/full_size/23596.jpg",
     numOfLikes: 0,
+    comments: [],
   },
   {
     name: "Nature Exploration: High Rock Park",
@@ -112,6 +121,7 @@ const seedPlaces = [
     borough: "statenisland",
     imageUrl: "https://www.nycgovparks.org/photo_gallery/full_size/21417.jpg",
     numOfLikes: 0,
+    comments: [],
   },
 
   {
@@ -124,6 +134,7 @@ const seedPlaces = [
     imageUrl:
       "https://www.bakemag.com/-/media/024633A3D87346D48B5A7C4DB31C00A0.ashx?h=300&w=460",
     numOfLikes: 0,
+    comments: [],
   },
 
   {
@@ -136,6 +147,7 @@ const seedPlaces = [
     imageUrl:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Schmidt%27s_confectioners_04.jpg/220px-Schmidt%27s_confectioners_04.jpg",
     numOfLikes: 0,
+    comments: [],
   },
   {
     name: "La Morada",
@@ -147,6 +159,7 @@ const seedPlaces = [
     imageUrl:
       "https://storage.googleapis.com/zagat-images/2020/07/c5d1e4bc-la-morada-new-york-storefront.jpg",
     numOfLikes: 0,
+    comments: [],
   },
 ];
 
