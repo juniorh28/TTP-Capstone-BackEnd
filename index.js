@@ -8,6 +8,7 @@ const sequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db');
 const User = require('./db/models/user')
 require('dotenv').config()//required
+const { Client } = require('pg');
 
 const sessionsStore = new sequelizeStore({db})
 
@@ -16,6 +17,24 @@ const PORT = process.env.PORT;
 
 
 const app = express();
+
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: true,
+  }
+});
+
+client.connect();
+
+client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+  if (err) throw err;
+  for (let row of res.rows) {
+    console.log(JSON.stringify(row));
+  }
+  client.end();
+});
+
 
 //CORS!
 app.use(cors());
@@ -37,7 +56,7 @@ const serverRun = () => {
 // {force:true} - drops current tables and places new empty tables
 //{alter:true} - This checks what is the current state of the table in the database (which columns it has, what are their data types, etc), and then performs the necessary changes in the table to make it match the model.
 
-const syncDb = () => db.sequelize.sync();
+const syncDb = () => db.sync();
 // Connects to //postgres://localhost:5432/dbname
 
 //Run server and sync DB
